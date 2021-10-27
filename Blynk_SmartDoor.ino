@@ -1,31 +1,29 @@
 //Untuk Komunikasi Serial Blynk
 #define BLYNK_PRINT Serial
- 
+
 #include <SPI.h> //Menambahkan Library untuk Komunikasi SPI
 #include <ESP8266WiFi.h> //Menambahkan Library untuk ESP8266 WiFi
 #include <BlynkSimpleEsp8266.h> //Menambahkan Library untuk Blynk
 #include <MFRC522.h> //Menambahkan Library untuk RFID
-#include <Servo.h>
- 
-//Definisikan Pin RFID Reader pada Board NodeMCU
+#include <Servo.h>//Definisikan Pin RFID Reader pada Board NodeMCU
 #define SS_PIN 2
 #define RST_PIN 0
 #define Lampu1 D0
 #define Lampu2 D1
- 
-char auth[] = "mgjth5FwbsFhqoAXZR5lhb-blGQjchUj"; //Isi dari Autentikasi Token Blynk
-char ssid[] = "ikhwaliksan"; //Isi dari Nama Wi-Fi
-char pass[] = "@cobaajadulu"; //Isi dari Password Wi-Fi
+
+char auth[] = "zFDsDbBLTKOcfYCO674hOJhmkvTozxGT"; //Isi dari Autentikasi Token Blynk
+char ssid[] = "AGHIKA"; //Isi dari Nama Wi-Fi
+char pass[] = "4y4h1buku"; //Isi dari Password Wi-Fi
 char server[] = "blynk-cloud.com"; //Server Blynk
 int port = 8442; //Port yang digunakan untuk terhubung ke Server Blynk
- 
+
 MFRC522 rfid(SS_PIN, RST_PIN); //Menggunakan fungsi RFID dari Library
 MFRC522::MIFARE_Key key; 
 Servo servo;
 WidgetLCD lcd(V1); //Definisi pin LCD pada Aplikasi Blynk
- 
+
 String strID, userID; //Variabel untuk Menyimpan hasil Pembacaan RFID
- 
+
 void setup() 
 {
   Serial.begin(115200); //Komunikasi Serial dengan Baudrate 115200
@@ -38,12 +36,12 @@ void setup()
   SPI.begin(); // Init SPI bus
   rfid.PCD_Init(); // Init MFRC522 
 }
- 
+       
 void loop()       // put your main code here, to run repeatedly:
 {
   Blynk.run(); //Blynk berjalan
   lcd.clear();
- 
+
   //Digunakan untuk melakukan Deteksi Kartu RFID
   if (!rfid.PICC_IsNewCardPresent() || !rfid.PICC_ReadCardSerial()) return;
   MFRC522::PICC_Type piccType = rfid.PICC_GetType(rfid.uid.sak);
@@ -61,7 +59,7 @@ void loop()       // put your main code here, to run repeatedly:
       (i != 3 ? ":" : "");
   }
   strID.toUpperCase();
- 
+
   //Cetak di LCD Aplikasi Blynk apabila RFID Tag terdeteksi
   if (strID != NULL)
   { 
@@ -90,4 +88,3 @@ void loop()       // put your main code here, to run repeatedly:
     delay(2000);
   }
 }   
- 
